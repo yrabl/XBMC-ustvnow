@@ -10,4 +10,8 @@
     <string id="30101">Stream Type</string>
     <string id="30102">Email</string>
     <string id="30103">Password</string>
+    <string id="30016">You must add org.python.pydev.debug.pysrc to your PYTHONPATH.</string>
+    <string id="30017">Run in Kiosk mode</string>
+    <string id="30018">Take over controls</string>
+
 </strings>
