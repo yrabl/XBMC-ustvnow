@@ -69,6 +69,7 @@ class tvWindow(xbmcgui.WindowXMLDialog):
             while not self.player.isPlaying():
                 xbmc.sleep(1000)
             self.getControl(100).setVisible(False)
+            self.getControl(101).setVisible(True)
 
         #down arrow
         elif actionID == 4:
@@ -79,11 +80,13 @@ class tvWindow(xbmcgui.WindowXMLDialog):
             while not self.player.isPlaying():
                 xbmc.sleep(1000)
             self.getControl(100).setVisible(False)
-
+            self.getControl(101).setVisible(True)
 
         elif actionID == 7:
             self.isVisible = not self.isVisible
             self.getControl(101).setVisible(self.isVisible)
+
+        self.show()
 
 
     def onInit(self):

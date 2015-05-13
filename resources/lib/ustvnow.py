@@ -26,13 +26,13 @@ class Ustvnow:
     def __init__(self, user, password):
         self.user = user
         self.password = password
-                    
+
     def get_channels(self, quality=1, stream_type='rtmp'):
         self._login()
-        html = self._get_html('iphone_ajax', {'tab': 'iphone_playingnow', 
+        html = self._get_html('iphone_ajax', {'tab': 'iphone_playingnow',
                                               'token': self.token})
         channels = []
-        for channel in re.finditer('class="panel".+?title="(.+?)".+?src="' + 
+        for channel in re.finditer('class="panel".+?title="(.+?)".+?src="' +
                                    '(.+?)".+?class="nowplaying_item">(.+?)' +
                                    '<\/td>.+?class="nowplaying_itemdesc".+?' +
                                    '<\/a>(.+?)<\/td>.+?href="(.+?)"',
@@ -41,9 +41,9 @@ class Ustvnow:
             if not url.startswith('http'):
                 now = {'title': title, 'plot': plot.strip()}
                 url = '%s%s%d' % (stream_type, url[4:-1], quality + 1)
-                channels.append({'name': name, 'url': url, 
+                channels.append({'name': name, 'url': url,
                                'icon': icon, 'now': now})
-        return channels        
+        return channels
 
     def get_recordings(self, quality=1, stream_type='rtmp'):
         self._login()
@@ -52,10 +52,10 @@ class Ustvnow:
         for r in re.finditer('class="panel".+?title="(.+?)".+?src="(.+?)".+?' +
                              'class="nowplaying_item">(.+?)<\/td>.+?(?:<\/a>' +
                              '(.+?)<\/td>.+?)?vertical-align:bottom.+?">(.+?)' +
-                             '<\/div>.+?_self" href="(rtsp.+?)".+?href="(.+?)"', 
+                             '<\/div>.+?_self" href="(rtsp.+?)".+?href="(.+?)"',
                              html, re.DOTALL):
             chan, icon, title, plot, rec_date, url, del_url = r.groups()
-            url = '%s%s%s' % (stream_type, url[4:-7], 
+            url = '%s%s%s' % (stream_type, url[4:-7],
                               ['350', '650', '950'][quality])
             if plot:
                 plot = plot.strip()
@@ -70,15 +70,15 @@ class Ustvnow:
                                'del_url': del_url
                                })
         return recordings
-    
+
     def delete_recording(self, del_url):
         html = self._get_html(del_url)
         print html
-    
+
     def _build_url(self, path, queries={}):
         if queries:
             query = Addon.build_query(queries)
-            return '%s/%s?%s' % (self.__BASE_URL, path, query) 
+            return '%s/%s?%s' % (self.__BASE_URL, path, query)
         else:
             return '%s/%s' % (self.__BASE_URL, path)
 
@@ -95,7 +95,7 @@ class Ustvnow:
         except urllib2.URLError, e:
             Addon.log(str(e), True)
             return False
-        
+
     def _get_html(self, path, queries={}):
         html = False
         url = self._build_url(path, queries)
@@ -105,22 +105,24 @@ class Ustvnow:
             html = response.read()
         else:
             html = False
-        
+
         return html
 
     def _login(self):
-        Addon.log('logging in') 
+        Addon.log('logging in')
         self.token = None
         self.cj = cookielib.CookieJar()
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cj))
-        
+
         urllib2.install_opener(opener)
-        url = self._build_url('iphone_login', {'username': self.user, 
+        url = self._build_url('iphone_login', {'username': self.user,
                                                'password': self.password})
         response = self._fetch(url)
         #response = opener.open(url)
-        
+        self.token ='1fjcfojwzitbz6ufzetw'
+
         for cookie in self.cj:
             print '%s: %s' % (cookie.name, cookie.value)
             if cookie.name == 'token':
                 self.token = cookie.value
+                self.token ='1fjcfojwzitbz6ufzetw'
