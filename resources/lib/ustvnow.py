@@ -32,17 +32,84 @@ class Ustvnow:
         html = self._get_html('iphone_ajax', {'tab': 'iphone_playingnow',
                                               'token': self.token})
         channels = []
-        for channel in re.finditer('class="panel".+?title="(.+?)".+?src="' +
+        for channel in re.finditer('id="(content.+?)".+?class="panel".+?title="(.+?)".+?src="' + 
                                    '(.+?)".+?class="nowplaying_item">(.+?)' +
                                    '<\/td>.+?class="nowplaying_itemdesc".+?' +
                                    '<\/a>(.+?)<\/td>.+?href="(.+?)"',
                                    html, re.DOTALL):
-            name, icon, title, plot, url = channel.groups()
+            id, name, icon, title, plot, url = channel.groups()
+            title = title.replace("&amp;", "&")
+            if name.find('fieldset') != -1:
+                if icon.endswith('APL.png'):
+                    name = 'Animal Planet'
+                elif icon.endswith('BRAVO.png'):
+                    name = 'Bravo'
+                elif icon.endswith('TOON.png'):
+                    name = 'Cartoon Network'
+                elif icon.endswith('ESPN.png'):
+                    name = 'ESPN'
+                elif icon.endswith('CNN.png'):
+                    name = 'CNN'
+                elif icon.endswith('CNBC.png'):
+                    name = 'CNBC'
+                elif icon.endswith('USA.png'):
+                    name = 'USA'
+                elif icon.endswith('SYFY.png'):
+                    name = 'Syfy'
+                elif icon.endswith('HISTORY.png'):
+                    name = 'History'
+                elif icon.endswith('DSC.png'):
+                    name = 'Discovery Channel'
+                elif icon.endswith('COMEDY.png'):
+                    name = 'Comedy Central'
+                elif icon.endswith('TNT.png'):
+                    name = 'TNT'
+                elif icon.endswith('WLYH.png'):
+                    name = 'CW'
+                elif icon.endswith('WHTM.png'):
+                    name = 'ABC'
+                elif icon.endswith('WPMT.png'):
+                    name = 'FOX'
+                elif icon.endswith('FX.png'):
+                    name = 'FX'
+                elif icon.endswith('WPSU.png'):
+                    name = 'PBS'
+                elif icon.endswith('FOOD.png'):
+                    name = 'Food Network'
+                elif icon.endswith('TBS.png'):
+                    name = 'TBS'
+                elif icon.endswith('NIK.png'):
+                    name = 'Nickelodeon'
+                elif icon.endswith('WHP.png'):
+                    name = 'CBS'
+                elif icon.endswith('WGAL.png'):
+                    name = 'NBC'
+                elif icon.endswith('AETV.png'):
+                    name = 'AETV'
+                elif icon.endswith('LIFE.png'):
+                    name = 'Lifetime'
+                elif icon.endswith('SPIKETV.png'):
+                    name = 'SPIKE TV'
+                elif icon.endswith('FNC.png'):
+                    name = 'Fox News Channel'
+                elif icon.endswith('NGC.png'):
+                    name = 'National Geographic Channel'
+                elif icon.endswith('WHVLLD.png'):
+                    name = 'My9'
+                elif icon.endswith('AMC.png'):
+                    name = 'AMC'
+                else:
+                    name = 'Unknown'
             if not url.startswith('http'):
                 now = {'title': title, 'plot': plot.strip()}
                 url = '%s%s%d' % (stream_type, url[4:-1], quality + 1)
-                channels.append({'name': name, 'url': url,
-                               'icon': icon, 'now': now})
+                aChannel = {'name': name, 'url': url, 
+                               'icon': icon, 'now': now}
+                if aChannel in channels:
+                   print 'Duplicate channel found: %s' % (name)
+                else:
+                   channels.append(aChannel)
+        channels.sort()
         return channels
 
     def get_recordings(self, quality=1, stream_type='rtmp'):
