@@ -1,4 +1,7 @@
+Version 0.4.3 [ddurdle]
 - force show
+- Update ustvnow.py #1 (from yrabl)
+
 Version 0.4.1 [ddurdle]
 - add: kiosk mode
 - add: control player mode

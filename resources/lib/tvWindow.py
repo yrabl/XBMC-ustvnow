@@ -62,14 +62,19 @@ class tvWindow(xbmcgui.WindowXMLDialog):
 
         #up arrow
         elif actionID == 3:
-            self.getControl(100).setVisible(True)
-            self.player.up()
-            self.getControl(103).setLabel(self.player.getChannelName())
-            self.getControl(104).setLabel(self.player.getShowName())
-            while not self.player.isPlaying():
-                xbmc.sleep(1000)
-            self.getControl(100).setVisible(False)
-            self.getControl(101).setVisible(True)
+#            self.getControl(100).setVisible(True)
+            print "PLAYER UP\n"
+            self.close()
+
+            #self.player.up()
+            print "PLAYER UP\n"
+#            self.getControl(103).setLabel(self.player.getChannelName())
+#            self.getControl(104).setLabel(self.player.getShowName())
+#            while not self.player.isPlaying():
+#                xbmc.sleep(1000)
+#            self.getControl(100).setVisible(False)
+#            self.getControl(101).setVisible(True)
+#            self.close()
 
         #down arrow
         elif actionID == 4:
@@ -85,9 +90,12 @@ class tvWindow(xbmcgui.WindowXMLDialog):
         elif actionID == 7:
             self.isVisible = not self.isVisible
             self.getControl(101).setVisible(self.isVisible)
+        print "XXXX UP\n"
 
-        self.show()
+        #self.show()
+#        self.doModal()
 
+ #       return
 
     def onInit(self):
         self.isVisible = False

@@ -76,10 +76,17 @@ if mode == 'main':
         player = ustvnowPlayer.ustvnowPlayer()
         player.setChannels(channels)
 
+
         w = tvWindow.tvWindow("tvWindow.xml",addon.getAddonInfo('path'),"Default")
         w.setPlayer(player)
         w.doModal()
+        del w
+        player = ustvnowPlayer.ustvnowPlayer()
+        player.setChannels(channels)
 
+        w = tvWindow.tvWindow("tvWindow.xml",addon.getAddonInfo('path'),"Default")
+        w.setPlayer(player)
+        w.doModal()
 
     Addon.add_directory({'mode': 'live'}, Addon.get_string(30001))
     Addon.add_directory({'mode': 'recordings'}, Addon.get_string(30002))

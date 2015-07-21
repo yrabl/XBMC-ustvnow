@@ -47,12 +47,17 @@ class ustvnowPlayer(xbmc.Player):
         self.current = current
 
     def up(self):
-        if self.current == len(self.channels) -1:
-            self.current = 1
-        else:
-            self.current += 1
+        print "PLAYER UPX\n"
+        self.stop()
+        self.play(self.channels[self.current]['url'])
 
-        self.playChannel()
+        return
+    #    if self.current == len(self.channels) -1:
+   #         self.current = 1
+  #      else:
+ #           self.current += 1
+
+#        self.playChannel()
 
     def down(self):
         if self.current == 1:
@@ -86,9 +91,9 @@ class ustvnowPlayer(xbmc.Player):
     def onPlayBackStopped(self):
         print "PLAYBACK STOPPED"
         xbmc.sleep(1000)
-        if self.isExit == 0:
-            self.playChannel()
-
+#        if self.isExit == 0:
+#            self.playChannel()
+        return
 
     def onPlayBackPaused(self):
         print "PLAYBACK Paused"
