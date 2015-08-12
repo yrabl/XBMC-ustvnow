@@ -23,7 +23,7 @@ import urllib, urllib2
 
 import xbmc, xbmcaddon, xbmcgui, xbmcplugin
 
-addon = xbmcaddon.Addon(id='plugin.video.ustvnow')
+addon = xbmcaddon.Addon(id='plugin.video.ustvnow-ddurdle')
 
 def log(msg, err=False):
     if err:

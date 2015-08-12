@@ -42,7 +42,7 @@ settingMode = Addon.get_setting('settingMode')
 controlMode = Addon.get_setting('controlMode')
 
 
-addon = xbmcaddon.Addon(id='plugin.video.ustvnow')
+addon = xbmcaddon.Addon(id='plugin.video.ustvnow-ddurdle')
 
 
 #added by ddurdle
